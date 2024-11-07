@@ -42,17 +42,20 @@ func (te *Terror) Unwrap() error {
 // FormatTree formats the error and its causes in a tree structure with better visuals
 func FormatTree(err error) string {
 	var builder strings.Builder
-	printErrorTree(&builder, err, 0, true)
+	printErrorTree(&builder, err, 0)
 	return builder.String()
 }
 
-func printErrorTree(builder *strings.Builder, err error, level int, isLast bool) {
+func printErrorTree(builder *strings.Builder, err error, level int) {
 	if err == nil {
 		return
 	}
 
-	// Create tree formatting symbols for each line
-	prefix := strings.Repeat("    ", level) + "└── " // Ensure every line gets the '└──' prefix
+	// Create tree formatting symbols, but skip the prefix for the first line
+	prefix := ""
+	if level > 0 {
+		prefix = strings.Repeat("    ", level-1) + "└── "
+	}
 
 	// Get file, line, and function information for Terror
 	var file string
@@ -69,6 +72,6 @@ func printErrorTree(builder *strings.Builder, err error, level int, isLast bool)
 
 	// Recursively print the cause of the error if any
 	if unwrappedErr := errors.Unwrap(err); unwrappedErr != nil {
-		printErrorTree(builder, unwrappedErr, level+1, errors.Unwrap(unwrappedErr) == nil)
+		printErrorTree(builder, unwrappedErr, level+1)
 	}
 }
