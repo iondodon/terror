@@ -12,7 +12,7 @@
 
 To use `terror`, run:
 
-`go get -u github.com/yourusername/terror`
+`go get -u github.com/iondodon/terror`
 
 
 ## Usage
