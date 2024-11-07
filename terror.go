@@ -55,9 +55,9 @@ func printErrorTree(builder *strings.Builder, err error, level int, isLast bool)
 	prefix := ""
 	if level > 0 {
 		if isLast {
-			prefix = strings.Repeat("│   ", level-1) + "└── "
+			prefix = strings.Repeat("    ", level-1) + "└── "
 		} else {
-			prefix = strings.Repeat("│   ", level-1) + "├── "
+			prefix = strings.Repeat("    ", level-1) + "    "
 		}
 	}
 
