@@ -51,17 +51,10 @@ func printErrorTree(builder *strings.Builder, err error, level int, isLast bool)
 		return
 	}
 
-	// Create tree formatting symbols
-	prefix := ""
-	if level > 0 {
-		if isLast {
-			prefix = strings.Repeat("    ", level-1) + "└── "
-		} else {
-			prefix = strings.Repeat("    ", level-1) + "    "
-		}
-	}
+	// Create tree formatting symbols for each line
+	prefix := strings.Repeat("    ", level) + "└── " // Ensure every line gets the '└──' prefix
 
-	// Get file, line, and function information for TreeError
+	// Get file, line, and function information for Terror
 	var file string
 	var line int
 	var funcName string
