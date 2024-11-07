@@ -1,4 +1,4 @@
-package treeerror
+package terror
 
 import (
 	"errors"
@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// TreeError represents an error with stack trace details
-type TreeError struct {
+// Terror represents an error with stack trace details
+type Terror struct {
 	message  string
 	cause    error
 	file     string
@@ -20,7 +20,7 @@ type TreeError struct {
 func New(message string, cause error) error {
 	pc, file, line, _ := runtime.Caller(1)
 	funcName := runtime.FuncForPC(pc).Name()
-	return &TreeError{
+	return &Terror{
 		message:  message,
 		cause:    cause,
 		file:     file,
@@ -30,12 +30,12 @@ func New(message string, cause error) error {
 }
 
 // Error implements the error interface for TreeError
-func (te *TreeError) Error() string {
+func (te *Terror) Error() string {
 	return te.message
 }
 
 // Unwrap returns the cause of the TreeError
-func (te *TreeError) Unwrap() error {
+func (te *Terror) Unwrap() error {
 	return te.cause
 }
 
@@ -65,7 +65,7 @@ func printErrorTree(builder *strings.Builder, err error, level int, isLast bool)
 	var file string
 	var line int
 	var funcName string
-	if te, ok := err.(*TreeError); ok {
+	if te, ok := err.(*Terror); ok {
 		file = te.file
 		line = te.line
 		funcName = te.funcName
